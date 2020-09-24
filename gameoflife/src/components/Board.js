@@ -75,12 +75,11 @@ function Board() {
     const [bStyle, setStyle] = useState("flat");
     const [sizing, setBoardSize] = useState(3);
     const [toggleBorders, setBorders] = useState(false);
-    const isBorderActive = useRef();
-    isBorderActive.current = toggleBorders;
+    const isBordersActive = useRef();
+    isBordersActive.current = toggleBorders;
     // colors
     const [cellsBG, setBG] = useState("#00FF00");
     const [cellsFG, setFG] = useState("#CC00FF");
-
 
     // useCallback hook allowing function created only once
     const runBoard = useCallback(() => {
@@ -112,7 +111,7 @@ function Board() {
                             let x1 = r + x;
                             let y1 = c + y;
 
-                            if(isBorderActive.current === false) {   
+                            if(isBordersActive.current === false) {
                                 if(x1 < 0) {
                                     x1 += 40;
                                 }
@@ -156,11 +155,11 @@ function Board() {
         } else {
             setCells(patternList[pName]);
         }
-    };
+    }
 
     const accelerator = e => {
         setSpeed(e.target.value);
-    };
+    }
 
     const stylize = e => {
         setStyle(e.target.value);
@@ -181,12 +180,12 @@ function Board() {
     const bgcontrol = e => {
         let bgName = e.target.value;
         setBG(colorList[bgName]);
-    };
+    }
 
     const fgcontrol = e => {
         let fgName = e.target.value;
         setFG(colorList[fgName]);
-    };
+    }
 
     return(
         <div style={{background: "#282c34", paddingTop: "10px", width: "100%", display: "flex", justifyContent: "space-around"}}>
@@ -276,10 +275,10 @@ function Board() {
                     display: "none"
                 }}>
                     <h3>The Rules:</h3>
-                    <p>Each cell is in one of two possible states: live or dead.<br />Every cell interacts with its eight neighbors - horizontally, vertically, and diagonally adjacent.</p>
+                    <p>Each cell is in one of two states: live or dead.<br />Every cell interacts with its eight neighbors, located: horizontally, vertically, diagonally adjacent.</p>
                     <ul>
-                        <li>Any live cell with fewer than two live neighbors dies, as if by underpopulation.</li>
-                        <li>Any live cell with two or three live neighbors lives on to the next generation.</li>
+                        <li>Any live cell with fewer than two live neighbours dies, as if by underpopulation.</li>
+                        <li>Any live cell with two or three live neighbours lives on to the next generation.</li>
                         <li>Any live cell with more than three live neighbours dies, as if by overpopulation.</li>
                         <li>Any dead cell with exactly three live neighbours becomes a live cell, as if by reproduction.</li>
                     </ul>
@@ -332,24 +331,24 @@ function Board() {
                     </select>
                 </div>
                 <div style={{width: "240px", margin: "5px 0", display: "flex", justifyContent: "space-between"}}>
+                    <label style={{color: "white"}}>Bordered:</label>
+                    <select onChange={() => {
+                        setBorders(!toggleBorders);
+                        if(!toggleBorders) {
+                            isBordersActive.current = true;
+                        }
+                    }}>
+                        <option value={true}>On</option>
+                        <option value={false} selected>Off</option>
+                    </select>
+                </div>
+                <div style={{width: "240px", margin: "5px 0", display: "flex", justifyContent: "space-between"}}>
                     <label style={{color: "white"}}>Animation Speed:</label>
                     <select name="speeds" id="speeds" onChange={accelerator}>
                         <option value={800}>Slow</option>
                         <option value={200} selected>Normal</option>
                         <option value={50}>Fast</option>
                         <option value={10}>FASTER!</option>
-                    </select>
-                </div>
-                <div style={{width: "240px", margin: "5px 0", display: "flex", justifyContent: "space-between"}}>
-                    <label style={{color: "white"}}>Boundaries:</label>
-                    <select name="boundary" id="boundary" onChange={() => {
-                        setBorders(!toggleBorders);
-                        if(!toggleBorders) {
-                            isBorderActive.current = true;
-                        }
-                    }}>
-                        <option value={true}>On</option>
-                        <option value={false} selected>Off</option>
                     </select>
                 </div>
                 <div style={{width: "240px", margin: "5px 0", display: "flex", justifyContent: "space-between"}}>
@@ -388,6 +387,10 @@ function Board() {
                     <button style={{margin: "5px"}} onClick={() => {
                         setCells(blankGridVals);
                         setGenerations(0);
+                        document.getElementById("patterns").value = "None";
+                        if(isRunning.current === true) {
+                            setRunning(!running);
+                        }
                     }}>
                         Clear Board
                     </button>
