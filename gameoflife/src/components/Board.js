@@ -74,9 +74,13 @@ function Board() {
     // For the Board!
     const [bStyle, setStyle] = useState("flat");
     const [sizing, setBoardSize] = useState(3);
+    const [toggleBorders, setBorders] = useState(false);
+    const isBorderActive = useRef();
+    isBorderActive.current = toggleBorders;
     // colors
     const [cellsBG, setBG] = useState("#00FF00");
     const [cellsFG, setFG] = useState("#CC00FF");
+
 
     // useCallback hook allowing function created only once
     const runBoard = useCallback(() => {
@@ -108,17 +112,19 @@ function Board() {
                             let x1 = r + x;
                             let y1 = c + y;
 
-                            if(x1 < 0) {
-                                x1 += 40;
-                            }
-                            if(x1 >= 40) {
-                                x1 -= 40;
-                            }
-                            if(y1 < 0) {
-                                y1 += 60;
-                            }
-                            if(y1 >= 60) {
-                                y1 -= 60;
+                            if(isBorderActive.current === false) {   
+                                if(x1 < 0) {
+                                    x1 += 40;
+                                }
+                                if(x1 >= 40) {
+                                    x1 -= 40;
+                                }
+                                if(y1 < 0) {
+                                    y1 += 60;
+                                }
+                                if(y1 >= 60) {
+                                    y1 -= 60;
+                                }
                             }
 
                             if(x1 >= 0 && x1 < 40 && y1 >= 0 && y1 < 60) {
@@ -150,11 +156,11 @@ function Board() {
         } else {
             setCells(patternList[pName]);
         }
-    }
+    };
 
     const accelerator = e => {
         setSpeed(e.target.value);
-    }
+    };
 
     const stylize = e => {
         setStyle(e.target.value);
@@ -175,12 +181,12 @@ function Board() {
     const bgcontrol = e => {
         let bgName = e.target.value;
         setBG(colorList[bgName]);
-    }
+    };
 
     const fgcontrol = e => {
         let fgName = e.target.value;
         setFG(colorList[fgName]);
-    }
+    };
 
     return(
         <div style={{background: "#282c34", paddingTop: "10px", width: "100%", display: "flex", justifyContent: "space-around"}}>
@@ -332,6 +338,18 @@ function Board() {
                         <option value={200} selected>Normal</option>
                         <option value={50}>Fast</option>
                         <option value={10}>FASTER!</option>
+                    </select>
+                </div>
+                <div style={{width: "240px", margin: "5px 0", display: "flex", justifyContent: "space-between"}}>
+                    <label style={{color: "white"}}>Boundaries:</label>
+                    <select name="boundary" id="boundary" onChange={() => {
+                        setBorders(!toggleBorders);
+                        if(!toggleBorders) {
+                            isBorderActive.current = true;
+                        }
+                    }}>
+                        <option value={true}>On</option>
+                        <option value={false} selected>Off</option>
                     </select>
                 </div>
                 <div style={{width: "240px", margin: "5px 0", display: "flex", justifyContent: "space-between"}}>
