@@ -264,12 +264,18 @@ function Board() {
                 </div>
                 <div style={sizing < 4 ? {
                     display: "block",
-                    color: "white"
+                    color: "#FDFD96"
                 } : {
                     display: "none"
                 }}>
                     <h3>The Rules:</h3>
-                    <p>Are these</p>
+                    <p>Each cell is in one of two possible states: live or dead.<br />Every cell interacts with its eight neighbors - horizontally, vertically, and diagonally adjacent.</p>
+                    <ul>
+                        <li>Any live cell with fewer than two live neighbors dies, as if by underpopulation.</li>
+                        <li>Any live cell with two or three live neighbors lives on to the next generation.</li>
+                        <li>Any live cell with more than three live neighbours dies, as if by overpopulation.</li>
+                        <li>Any dead cell with exactly three live neighbours becomes a live cell, as if by reproduction.</li>
+                    </ul>
                 </div>
             </div>
             <div style={{width: "2px", background: "#3ac1f1"}}></div>
