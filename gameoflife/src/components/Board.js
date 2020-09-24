@@ -1,6 +1,6 @@
 import React, {useState, useCallback, useRef} from "react";
 import SquareA from "./SquareA";
-import {pattern1, pattern2, pattern3, pattern4, pattern5, pattern6} from "./presets";
+import {pattern1, pattern2, pattern3, pattern4, pattern5, pattern6, pattern7} from "./presets";
 import produce from "immer";
 
 const surround = [[-1, -1], [-1, 0], [-1, 1], [0, -1], [0, 1], [1, -1], [1, 0], [1, 1]];
@@ -34,7 +34,8 @@ const patternList = {
     pattern3: pattern3,
     pattern4: pattern4,
     pattern5: pattern5,
-    pattern6: pattern6
+    pattern6: pattern6,
+    pattern7: pattern7
 };
 
 const colorList = {
@@ -330,6 +331,7 @@ function Board() {
                         <option value={800}>Slow</option>
                         <option value={200} selected>Normal</option>
                         <option value={50}>Fast</option>
+                        <option value={10}>FASTER!</option>
                     </select>
                 </div>
                 <div style={{width: "240px", margin: "5px 0", display: "flex", justifyContent: "space-between"}}>
@@ -342,6 +344,7 @@ function Board() {
                         <option value="pattern4">Explosions</option>
                         <option value="pattern5">Dance</option>
                         <option value="pattern6">Starship</option>
+                        <option value="pattern7">Glider Run</option>
                     </select>
                 </div>
                 <div style={{margin: "10px"}} />
@@ -372,12 +375,11 @@ function Board() {
                     </button>
                 </div>
                 <div style={{marginTop: `${(sizing - 3) * 160 + 60}px`, color: "white"}}>
-                    <h3>Generations: {generations}</h3>
+                    <h3 style={{color: "#77DD77"}}>Generations: <span style={{color: "#DFA7F1"}}>{generations}</span></h3>
                 </div>
             </div>
         </div>
     );
-
 }
 
 export default Board
